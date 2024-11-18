@@ -15,7 +15,6 @@ export class PokemonListPage implements OnInit {
 
   constructor(
     private pokemonService: PokemonService,
-    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -66,22 +65,4 @@ export class PokemonListPage implements OnInit {
     this.isModalOpen = false;
     this.selectedPokemon = null;
   }
-
-  // async showPokemonDetails(name: string) {
-  //   this.loading = true;
-  //   this.pokemonService.getPokemonDetails(name).subscribe({
-  //     next: async (response) => {
-  //       this.loading = false;
-  //       const modal = await this.modalController.create({
-  //         component: PokemonDetailModalComponent,
-  //         componentProps: { pokemon: response }
-  //       });
-  //       await modal.present();
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching Pokémon details:', error);
-  //       this.loading = false;
-  //     },
-  //   });
-  // }
 }
