@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pokémon List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col
+        *ngFor="let pokemon of pokemons"
+        size="12" size-sm="6" size-md="4" size-lg="3"
+        class="pokemon-col"
+        (click)="openModal(pokemon.name)"
+      >
+        <div class="pokemon-card">
+          {{ pokemon.name }}
+          <img [src]="pokemon.image" [alt]="pokemon.name" />
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-spinner *ngIf="loading" class="loading-spinner"></ion-spinner>
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ selectedPokemon?.name }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <div class="modal-content">
+          <!-- Imagen del Pokémon -->
+          <img [src]="selectedPokemon?.sprites.front_default" [alt]="selectedPokemon?.name" class="pokemon-image"/>
+
+          <!-- Descripción general -->
+          <p class="pokemon-description">
+            <strong>{{ selectedPokemon?.name  }}</strong> es un Pokémon de tipo
+            <span *ngFor="let type of selectedPokemon?.types; let last = last">
+              <strong>{{ type.type.name  }}</strong>
+              <span *ngIf="!last">, </span>
+            </span>
+            con una experiencia base de <strong>{{ selectedPokemon?.base_experience }}</strong> puntos.
+          </p>
+
+          <!-- Habilidades -->
+          <h3>Habilidades:</h3>
+          <ion-list>
+            <ion-item *ngFor="let ability of selectedPokemon?.abilities">
+              <ion-label>
+                <h4>{{ ability.ability.name  }}</h4>
+                <p *ngIf="ability.is_hidden">¡Habilidad oculta!</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+
+          <!-- Estadísticas -->
+          <h3>Estadísticas:</h3>
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let stat of selectedPokemon?.stats" size="6">
+                <ion-item>
+                  <ion-label>
+                    <h4>{{ stat.stat.name  }}:</h4>
+                    <p>{{ stat.base_stat }} puntos</p>
+                  </ion-label>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
